@@ -1,0 +1,45 @@
+.header {
+  text-transform: uppercase;
+  font-weight: 900;
+
+}
+
+.title {
+
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 24px;
+  margin: 8px 0;
+}
+
+.subtitle {
+  font-size: 22px;
+  font-weight: 300;
+  border-left: 6px solid #bbb;
+  padding-left: 16px;
+  padding-right: 22px;
+  margin: 16px 20px;
+  max-width: 720px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 12px 40px;
+  margin: 32px 0; 
+}
+
+.grid > :nth-child(2n-1) {
+  font-weight: 900;
+  font-size: 16px;
+  text-transform: uppercase;
+  
+}
+
+.grid > :nth-child(2n) {
+  font-size: 16px;
+  line-height: 1.5;
+  
+  
+}
+

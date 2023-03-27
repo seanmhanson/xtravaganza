@@ -1,0 +1,15 @@
+.container {
+  margin: 48px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 25%) auto;
+  column-gap: 48px;
+}
+
+/* placeholder */
+.navContainer {
+  background-color: black;
+  opacity: .2;
+}
