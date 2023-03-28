@@ -1,32 +1,38 @@
-import { Browser } from 'playwright';
+import { Browser, Page } from 'playwright';
+import PageModel from './PageModel';
 
-class AcluPage {
-  static url = 'https://www.aclu.org/legislative-attacks-on-lgbtq-rights';
-  static selectors = {
-    row: '#map table > tbody > tr',
-  }
-  browser;
-  page;
-  bills;
+type Bills = Record<string, Array<string>>;
+class AcluPage extends PageModel {
+  static rowSelector = '#map table > tbody > tr';
+  protected baseUrl = 'https://www.aclu.org/legislative-attacks-on-lgbtq-rights';
+  protected selectors = { row: AcluPage.rowSelector };
+  protected page!: Page;
+  protected url;
+
+  private bills: Bills;
 
   constructor(browser: Browser) {
-    this.browser = browser;
+    super(browser);
     this.bills = {};
+    this.url = this.baseUrl;
   }
 
   async scrape() {
-    this.page = await this.browser.newPage();
-    await this.page.goto(AcluPage.url);
+    await this.connect();
     await this.billsByState();
-    await this.page.close();
+    await this.disconnect();
     return this.data();
   }
 
   async billsByState() {
-    const rows = await this.page.locator(AcluPage.selectors.row);
+    const rows = this.page.locator(this.selectors.row);
     for (const row of await rows.all()) {
       const state = await row.locator('.bill-state').textContent();
       const bill = await row.locator('td:nth-child(2) > a, td:nth-child(2) > span').textContent();
+
+      if (!state || !bill) {
+        return;
+      }
 
       const formattedState = state.trim().replace(' ', '-').toLowerCase();
       const formattedBill = bill.trim().replace(' ', '').toLowerCase();

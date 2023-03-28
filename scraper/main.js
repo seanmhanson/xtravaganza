@@ -12,12 +12,6 @@ async function main() {
   const aclu = new AcluPage(browser);
   const bills = await aclu.scrape();
 
-//   const ohBills = ['sb83', 'hb6', 'hb8', 'hb68'];
-//   const kyBills = [
-//     'hb585', 'hb470', 'sb145', 'sb115', 'sb150', 'sb102',
-//     'hb177', 'hb30', 'hb58', 'hb120', 'hb173',
-//   ];
-
   content.ohio = await Promise.all(bills.ohio.map(id => scrapeOhioBill(id, browser)));
   content.kentucky = await Promise.all(bills.kentucky.map(id => scrapeKentuckyBill(id, browser)));
   await browser.close();
